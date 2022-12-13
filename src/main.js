@@ -1,20 +1,33 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import PrimeVue from 'primevue/config';
+import { createPinia } from 'pinia'
 
-
+import '@/assets/global.css'
+import '/node_modules/primeflex/primeflex.css'
 import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
 import 'primevue/resources/themes/luna-blue/theme.css'
 import Button from 'primevue/button';
 import Terminal from 'primevue/terminal';
 import TerminalService from 'primevue/terminalservice';
+import InputText from 'primevue/inputtext';
+import Dialog from 'primevue/dialog';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
 
 
+const pinia = createPinia()
 const app = createApp(App);
 
 app.use(PrimeVue);
+
 app.component('Button', Button );
 app.component('Terminal', Terminal );
 app.component('TerminalService', TerminalService );
+app.component('InputText', InputText );
+app.component('Dialog', Dialog );
+app.component('DataTable', DataTable );
+app.component('Column', Column );
+app.use(pinia)
 app.mount("#app");

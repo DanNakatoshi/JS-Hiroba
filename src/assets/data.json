@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "title": "アロー関数",
+    "explanation": "ES6の関数の使い方です。",
+    "date": "3/2/2021",
+    "code": "['Yoshi', 'John', 'Bobby'].map(name => name.length));"
+  },
+  {
+    "id": 2,
+    "title": "アロー関数",
+    "explanation": "ES6の関数の使い方です。",
+    "date": "3/2/2021",
+    "code": "['Yoshi', 'John', 'Bobby'].map(name => name.length));"
+  }
+]
