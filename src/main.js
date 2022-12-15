@@ -7,7 +7,10 @@ import '@/assets/global.css'
 import '/node_modules/primeflex/primeflex.css'
 import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
-import 'primevue/resources/themes/luna-blue/theme.css'
+// import 'primevue/resources/themes/luna-blue/theme.css'
+import 'primevue/resources/themes/bootstrap4-dark-purple/theme.css'
+
+
 import Button from 'primevue/button';
 import Terminal from 'primevue/terminal';
 import TerminalService from 'primevue/terminalservice';

@@ -1,59 +1,76 @@
 <template>
-  <Logo />
-
-  <div class="flex flex-wrap justify-content-center gap-2 m-2">
-    <Button
-      :label="keywordBtn.label"
-      :finderTitle="keywordBtn.label"
-      :icon="keywordBtn.icon"
-      @click="openDialog('Keyword')"
-    />
-    <Button
-      :label="articleBtn.label"
-      :finderTitle="articleBtn.label"
-      :icon="articleBtn.icon"
-      @click="openDialog('Article')"
-    />
-    <Button
-      :label="historyBtn.label"
-      :finderTitle="historyBtn.label"
-      :icon="historyBtn.icon"
-      @click="openDialog('History')"
-    />
-  </div>
-
-  <Dialog
-    v-model:visible="isShowDialog"
-    :breakpoints="{ '1080px': '75vw', '750px': '100vw' }"
-    :style="{ width: '100vw' }"
-    :closable="false"
-  >
-    <template #header>
-      <div class="min-w-full flex justify-content-between">
-        <div v-if="isShowKeyword" class="flex align-items-center">
-          {{ keywordBtn.label }}
-        </div>
-        <div v-if="isShowArticle" class="flex align-items-center">
-          {{ articleBtn.label }}
-        </div>
-        <div v-if="isShowHistory" class="flex align-items-center">
-          {{ historyBtn.label }}
-        </div>
-
+  <div class="flex justify-content-center">
+    <div class="m-4">
+      <div class="flex justify-content-between my-3">
+        <Logo />
+        <SocialLinks />
+      </div>
+      <Message class="my-4" />
+     
+      <div class="flex flex-wrap ustify-content-start gap-2 mb-4 mt-2">
         <Button
-          icon="pi pi-times"
-          @click="closeDialog"
-          class="flex align-items-center"
+          :label="keywordBtn.label"
+          :finderTitle="keywordBtn.label"
+          :icon="keywordBtn.icon"
+          @click="openDialog('Keyword')"
+          class="flex align-items-center justify-content-center"
+        />
+        <Button
+          :label="articleBtn.label"
+          :finderTitle="articleBtn.label"
+          :icon="articleBtn.icon"
+          @click="openDialog('Article')"
+          class="flex align-items-center justify-content-center"
+        />
+        <Button
+          :label="historyBtn.label"
+          :finderTitle="historyBtn.label"
+          :icon="historyBtn.icon"
+          @click="openDialog('History')"
+          class="flex align-items-center justify-content-center"
         />
       </div>
-    </template>
 
-    <KeywordFinder v-if="isShowKeyword" @emitCopy="emitPaste" />
-    <ArticleFinder v-if="isShowArticle" />
-    <HistoryFinder v-if="isShowHistory" @emitCopy="emitPaste" />
-  </Dialog>
+      <Dialog
+        v-model:visible="isShowDialog"
+        :breakpoints="{ '1080px': '75vw', '750px': '100vw' }"
+        :style="{ width: '100vw' }"
+        :closable="false"
+        class="max-w-60rem"
+      >
+        <template #header>
+          <div class="min-w-full flex justify-content-between">
+            <div v-if="isShowKeyword" class="flex align-items-center">
+              {{ keywordBtn.label }}
+            </div>
+            <div v-if="isShowArticle" class="flex align-items-center">
+              {{ articleBtn.label }}
+            </div>
+            <div v-if="isShowHistory" class="flex align-items-center">
+              {{ historyBtn.label }}
+            </div>
 
-  <Terminal welcomeMessage="JSターミナル" prompt="$" ref="terminal" />
+            <Button
+              icon="pi pi-times"
+              @click="closeDialog"
+              class="flex align-items-center"
+            />
+          </div>
+        </template>
+
+        <KeywordFinder v-if="isShowKeyword" @emitCopy="emitPaste" />
+        <ArticleFinder v-if="isShowArticle" />
+        <HistoryFinder v-if="isShowHistory" @emitCopy="emitPaste" />
+      </Dialog>
+
+      <Terminal
+        welcomeMessage="JSターミナル"
+        prompt="$"
+        ref="terminal"
+        class="border-round-sm"
+      />
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -64,7 +81,9 @@ import TerminalService from "primevue/terminalservice";
 // Pinia
 import { useStore } from "@/store/store.js";
 // Components
-import Logo from "@/components/logo/Logo.vue";
+import Logo from "@/components/header/Logo.vue";
+import SocialLinks from "@/components/header/SocialLinks.vue";
+import Message from "@/components/header/Message.vue";
 import KeywordFinder from "@/components/finder/KeywordFinder.vue";
 import ArticleFinder from "@/components/finder/ArticleFinder.vue";
 import HistoryFinder from "@/components/finder/HistoryFinder.vue";
@@ -72,16 +91,18 @@ import HistoryFinder from "@/components/finder/HistoryFinder.vue";
 // ButtonProps
 const keywordBtn = {
   label: "キーワード検索",
-  icon: "pi pi-external-link",
+  icon: "pi pi-search",
 };
 const articleBtn = {
-  label: "記事をさがす",
-  icon: "pi pi-external-link",
+  label: "記事を探す",
+  icon: "pi pi-book",
 };
 const historyBtn = {
-  label: "履歴からもう一度",
-  icon: "pi pi-external-link",
+  label: "コマンド履歴",
+  icon: "pi pi-database",
 };
+
+
 
 // Pinia
 const store = useStore();
@@ -132,6 +153,7 @@ console.log(terminal);
 
 onMounted(() => {
   TerminalService.on("command", commandHandler);
+  const isHistory = ref(historyData.length)
 });
 
 onBeforeUnmount(() => {
@@ -161,11 +183,11 @@ const createHistoryData = (command) => {
   historyData.length >= 10 ? historyData.pop() : "";
 };
 
-
-
 const emitPaste = (command) => {
   terminal.value.commandText = command;
   closeDialog();
 };
 // End コンソール関係
 </script>
+
+<style></style>
