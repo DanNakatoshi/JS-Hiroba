@@ -1,45 +1,52 @@
 <template>
-  <div class="flex justify-content-center">
-    <div class="m-4">
-      <div class="flex justify-content-between my-3">
+  <div class="flex justify-content-center min-w-full">
+    <div id="app-container" class="m-4 flex-grow-1">
+      <div class="flex flex-wrap card-container justify-content-between my-3">
         <Logo />
         <SocialLinks />
       </div>
+
       <Message class="my-4" />
-     
-      <div class="flex flex-wrap ustify-content-start gap-2 mb-4 mt-2">
+      {{ count }}
+      <div
+        class="flex flex-wrap card-container ustify-content-start gap-2 mb-2 mt-2"
+      >
         <Button
           :label="keywordBtn.label"
           :finderTitle="keywordBtn.label"
           :icon="keywordBtn.icon"
           @click="openDialog('Keyword')"
-          class="flex align-items-center justify-content-center"
+          class="cursor-pointer px-3"
         />
         <Button
           :label="articleBtn.label"
           :finderTitle="articleBtn.label"
           :icon="articleBtn.icon"
           @click="openDialog('Article')"
-          class="flex align-items-center justify-content-center"
+          class="cursor-pointer px-3"
         />
         <Button
           :label="historyBtn.label"
           :finderTitle="historyBtn.label"
           :icon="historyBtn.icon"
+          :disabled="historyData.length == 0"
           @click="openDialog('History')"
-          class="flex align-items-center justify-content-center"
+          :class="{ 'jello-horizontal': historyData.length > 0 }"
+          class="cursor-pointer px-3"
         />
       </div>
 
       <Dialog
         v-model:visible="isShowDialog"
-        :breakpoints="{ '1080px': '75vw', '750px': '100vw' }"
+        id="app-container"
+        position="top"
         :style="{ width: '100vw' }"
         :closable="false"
-        class="max-w-60rem"
+        :showHeader="true"
+        :draggable="false"
       >
         <template #header>
-          <div class="min-w-full flex justify-content-between">
+          <div class="min-w-full flex justify-content-between align-content-center">
             <div v-if="isShowKeyword" class="flex align-items-center">
               {{ keywordBtn.label }}
             </div>
@@ -53,31 +60,58 @@
             <Button
               icon="pi pi-times"
               @click="closeDialog"
-              class="flex align-items-center"
+              class="cursor-pointer flex align-items-center p-button-sm p-button-secondary"
             />
           </div>
         </template>
 
         <KeywordFinder v-if="isShowKeyword" @emitCopy="emitPaste" />
+
         <ArticleFinder v-if="isShowArticle" />
         <HistoryFinder v-if="isShowHistory" @emitCopy="emitPaste" />
       </Dialog>
 
-      <Terminal
-        welcomeMessage="JSターミナル"
-        prompt="$"
-        ref="terminal"
-        class="border-round-sm"
-      />
+      <div class="flex">
+        <Textarea
+          v-model="consoleValue"
+          :autoResize="true"
+          rows="8"
+          class="min-w-full max-h-18rem scalein animation-duration-1000"
+        />
+      </div>
+      <div class="mt-2 mb-2 flex justify-content-start flex-wrap">
+        <Button
+          label="実行"
+          @click.prevent="consoleHandler"
+          icon="pi pi-caret-right"
+          class="cursor-pointer mr-2 p-button-success px-3"
+          :class="{ 'jello-horizontal': consoleValue }"
+          :disabled="!consoleValue"
+        />
+        <Button
+          label="クリア"
+          @click.prevent="resetCommand"
+          icon="pi pi-eraser"
+          class="cursor-pointer p-button-success px-3"
+          :disabled="!consoleValue"
+        />
+      </div>
+      <div class="flex z-1">
+        <Textarea
+          :value="consoleRes"
+          :autoResize="true"
+          disabled="true"
+          rows="5"
+          class="min-w-full max-h-18rem scalein animation-duration-1000"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 // VueAPIs
-import { reactive, ref, onMounted, onBeforeUnmount } from "vue";
-// PrimeVue
-import TerminalService from "primevue/terminalservice";
+import { reactive, ref, onMounted } from "vue";
 // Pinia
 import { useStore } from "@/store/store.js";
 // Components
@@ -102,14 +136,15 @@ const historyBtn = {
   icon: "pi pi-database",
 };
 
-
-
 // Pinia
 const store = useStore();
 const keywordData = store.keywordData;
 const articleData = store.articleData;
 const historyData = store.historyData;
 // END Pinia
+
+// Count
+const count = ref(0);
 
 // Modal Related
 
@@ -147,31 +182,17 @@ const closeDialog = () => {
 
 // コンソール関係
 
-const terminal = ref(null);
-console.log(terminal);
-// terminal.value.commandText = "Hi"
+const consoleValue = ref(null);
+const consoleRes = ref("Result");
 
-onMounted(() => {
-  TerminalService.on("command", commandHandler);
-  const isHistory = ref(historyData.length)
-});
-
-onBeforeUnmount(() => {
-  TerminalService.off("command", commandHandler);
-});
-
-const commandHandler = (command) => {
-  let response;
-  // Use 'text' argument to test. See BELOW.
-  // let argsIndex = text.indexOf(" ");
-  // let command = argsIndex !== -1 ? text.substring(0, argsIndex) : text;
+const consoleHandler = () => {
   try {
-    response = eval(command);
+    consoleRes.value = eval(consoleValue.value);
   } catch (e) {
-    response = e.message;
+    consoleRes.value = e.message;
   }
-  createHistoryData(command);
-  TerminalService.emit("response", response);
+  createHistoryData(consoleValue.value);
+  count.value++;
 };
 
 const createHistoryData = (command) => {
@@ -184,10 +205,92 @@ const createHistoryData = (command) => {
 };
 
 const emitPaste = (command) => {
-  terminal.value.commandText = command;
+  consoleValue.value = command;
   closeDialog();
 };
+
+const resetCommand = () => {
+  consoleValue.value = null;
+  consoleRes.value = "Result";
+};
+
 // End コンソール関係
 </script>
 
-<style></style>
+<style>
+#app-container {
+  max-width: 960px;
+}
+
+/* When Botton is ready*/
+.jello-horizontal {
+  -webkit-animation: jello-horizontal 0.8s both;
+  animation: jello-horizontal 0.8s both;
+}
+
+/**
+ * ----------------------------------------
+ * animation jello-horizontal
+ * ----------------------------------------
+ */
+@-webkit-keyframes jello-horizontal {
+  0% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+    transform: scale3d(1.25, 0.75, 1);
+  }
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+    transform: scale3d(0.75, 1.25, 1);
+  }
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+    transform: scale3d(1.15, 0.85, 1);
+  }
+  65% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+    transform: scale3d(0.95, 1.05, 1);
+  }
+  75% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+    transform: scale3d(1.05, 0.95, 1);
+  }
+  100% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+@keyframes jello-horizontal {
+  0% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+    transform: scale3d(1.25, 0.75, 1);
+  }
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+    transform: scale3d(0.75, 1.25, 1);
+  }
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+    transform: scale3d(1.15, 0.85, 1);
+  }
+  65% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+    transform: scale3d(0.95, 1.05, 1);
+  }
+  75% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+    transform: scale3d(1.05, 0.95, 1);
+  }
+  100% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+</style>

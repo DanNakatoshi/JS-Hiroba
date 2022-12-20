@@ -11,7 +11,8 @@
     :loading="loading"
     paginatorTemplate=" PrevPageLink PageLinks NextPageLink "
     :globalFilterFields="['title', 'keyword']"
-    responsiveLayout="stack"
+    responsiveLayout="scroll"
+    stripedRows
   >
     <template #header>
       <div class="flex justify-content-center align-items-center">
@@ -20,7 +21,7 @@
           <InputText
             v-model="filters['global'].value"
             placeholder="例：アロー関数"
-            class="min-w-full"
+            class="search-box"
           />
         </span>
       </div>
@@ -31,10 +32,15 @@
 
     <Column
       bodyStyle="text-align: center; overflow: visible"
-      style="min-width: 1rem"
+      class="copy-section"
     >
-      <template #body="slotProps">
-        <Button type="button" icon="pi pi-copy" @click="emitCopy(slotProps.data.command)"></Button>
+      <template #body="slotProps" >
+        <Button
+          type="button"
+          icon="pi pi-copy "
+          class="p-button-sm"
+          @click="emitCopy(slotProps.data.command)"
+        ></Button>
       </template>
     </Column>
 
@@ -48,6 +54,7 @@
 import { useStore } from "@/store/store.js";
 import { ref } from "vue";
 import { FilterMatchMode, FilterOperator } from "primevue/api";
+import { slotFlagsText } from "@vue/shared";
 
 // Pinia
 const store = useStore();
@@ -68,6 +75,6 @@ const emit = defineEmits(["emitCopy"]);
 
 const emitCopy = (command) => {
   emit("emitCopy", command);
-  console.log(command)
+  console.log(command);
 };
 </script>

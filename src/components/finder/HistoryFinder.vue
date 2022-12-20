@@ -11,7 +11,8 @@
     :loading="loading"
     paginatorTemplate=" PrevPageLink PageLinks NextPageLink "
     :globalFilterFields="['title', 'keyword']"
-    responsiveLayout="stack"
+    responsiveLayout="scroll"
+    stripedRows
   >
     <template #header>
       <div class="flex justify-content-center align-items-center">
@@ -20,7 +21,7 @@
           <InputText
             v-model="filters['global'].value"
             placeholder="例：アロー関数"
-            class="min-w-full"
+            class="search-box"
           />
         </span>
       </div>
@@ -31,15 +32,20 @@
 
     <Column
       bodyStyle="text-align: center; overflow: visible"
-      style="min-width: 2rem"
+      class="copy-section"
     >
       <template #body="slotProps">
-        <Button type="button" icon="pi pi-copy" @click="emitCopy(slotProps.data.command)"></Button>
+        <Button
+          type="button"
+          icon="pi pi-copy "
+          class="p-button-sm"
+          @click="emitCopy(slotProps.data.command)"
+        ></Button>
       </template>
     </Column>
 
-    <Column field="command" header="コマンド" style="min-width: 14rem"> </Column>
-
+    <Column field="command" header="コマンド" style="min-width: 14rem">
+    </Column>
   </DataTable>
 </template>
 
@@ -66,6 +72,5 @@ const emit = defineEmits(["emitCopy"]);
 
 const emitCopy = (command) => {
   emit("emitCopy", command);
-  console.log(command)
 };
 </script>

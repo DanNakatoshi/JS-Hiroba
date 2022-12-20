@@ -1,8 +1,8 @@
 <template>
-  <div id="logo" class="w-7rem h-3rem shadow-pop-bl flex justify-content-center border-round-sm">
+  <div id="logo" class="w-7rem h-3rem shadow-pop-bl flex justify-content-center border-round-sm mb-2">
     <div class="flex align-items-end mb-1">
-      <span id="logo--text" class="text-4xl">JS</span>
-      <span id="logo--text" class="text-xl ">ひろば</span>
+      <span id="" class="logo--text text-4xl">JS</span>
+      <span id="hiroba" class="logo--text text-xl ">ひろば</span>
     </div>
   </div>
   
@@ -21,10 +21,13 @@
   height: 57px;
 }
 
-#logo--text {
+.logo--text {
   font-size: 48px;
   font-weight: bold;
   color:#121212;
+}
+#hiroba {
+  padding-bottom: 2px;
 }
 
 /* Animation */

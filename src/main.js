@@ -12,12 +12,11 @@ import 'primevue/resources/themes/bootstrap4-dark-purple/theme.css'
 
 
 import Button from 'primevue/button';
-import Terminal from 'primevue/terminal';
-import TerminalService from 'primevue/terminalservice';
 import InputText from 'primevue/inputtext';
 import Dialog from 'primevue/dialog';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
+import Textarea from 'primevue/textarea';
 
 
 const pinia = createPinia()
@@ -26,11 +25,11 @@ const app = createApp(App);
 app.use(PrimeVue);
 
 app.component('Button', Button );
-app.component('Terminal', Terminal );
-app.component('TerminalService', TerminalService );
 app.component('InputText', InputText );
 app.component('Dialog', Dialog );
 app.component('DataTable', DataTable );
 app.component('Column', Column );
+app.component('Textarea', Textarea );
+
 app.use(pinia)
 app.mount("#app");
