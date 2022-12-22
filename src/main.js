@@ -33,5 +33,6 @@ app.component('DataTable', DataTable );
 app.component('Column', Column );
 app.component('Textarea', Textarea );
 
+
 app.use(pinia)
 app.mount("#app");

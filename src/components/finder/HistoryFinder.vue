@@ -20,15 +20,15 @@
           <i class="pi pi-search" />
           <InputText
             v-model="filters['global'].value"
-            placeholder="例：アロー関数"
+            :placeholder="store.isJapanese ? '例：アロー関数' : 'Type Anything...'"
             class="search-box"
           />
         </span>
       </div>
     </template>
 
-    <template #empty>データがありません。</template>
-    <template #loading> Loading customers data. Please wait. </template>
+    <template #empty>{{store.isJapanese ? 'データがありません。' : 'No Data'}}</template>
+    <template #loading>{{store.isJapanese ? 'ローディング中...' : 'Loading Data...'}}</template>
 
     <Column
       bodyStyle="text-align: center; overflow: visible"
@@ -44,7 +44,7 @@
       </template>
     </Column>
 
-    <Column field="command" header="コマンド" style="min-width: 14rem">
+    <Column field="command" :header="store.isJapanese ? 'コマンド' : 'Command'" style="min-width: 14rem">
     </Column>
   </DataTable>
 </template>

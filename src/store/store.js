@@ -31,10 +31,13 @@ export const useStore = defineStore("member", () => {
     return command;
   };
 
+  const isJapanese = ref(false);
+  
   return {
     keywordData,
     articleData,
     historyData,
     sendCommand,
+    isJapanese,
   };
 });

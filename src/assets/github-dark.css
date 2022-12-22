@@ -1,6 +1,7 @@
 pre code.hljs {
   overflow-x: auto;
   line-height: 150%;
+  white-space: pre;
 }
 
 pre {
