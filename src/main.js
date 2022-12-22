@@ -10,6 +10,8 @@ import 'primeicons/primeicons.css'
 // import 'primevue/resources/themes/luna-blue/theme.css'
 import 'primevue/resources/themes/bootstrap4-dark-purple/theme.css'
 
+// Highlight
+import "highlight.js/scss/github-dark.css";
 
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
