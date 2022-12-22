@@ -1,8 +1,10 @@
 pre code.hljs {
-  overflow-x: auto;
+  /* overflow-x: auto; */
   line-height: 150%;
-  white-space: pre;
+  white-space: pre-line;
 }
+
+
 
 pre {
   white-space: pre-line;

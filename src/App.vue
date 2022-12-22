@@ -77,7 +77,7 @@
         <HistoryFinder v-if="isShowHistory" @emitCopy="emitPaste" />
       </Dialog>
 
-      <div class=" max-h-18rem pb-2">
+      <div class="min-w-full max-h-18rem pb-2">
         {{ store.isJapanese ? mainMsg.msg : mainMsg.msgEn }}
       </div>
 
@@ -91,7 +91,7 @@
         />
         <pre
           v-show="isExecuted"
-          class="min-w-full max-h-18rem highlight-container"
+          class="min-w-full max-h-18rem highlight-container "
           @click="bounceClearBtn()"
         >
           <code class="language-javascript hljs" v-html="consoleValue"></code>
@@ -121,7 +121,7 @@
         />
       </div>
       <div class="flex z-1">
-        <pre class="min-w-full console-container">
+        <pre class="min-w-full console-container flex">
           <code class="language-javascript hljs" :class="{ 'text-focus-in': isExecuted }" v-html="consoleRes"></code>
         </pre>
       </div>
