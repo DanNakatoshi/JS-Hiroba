@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-content-center min-w-full">
+  <div class="flex justify-content-center min-w-full" >
     <div id="app-container" class="m-4 flex-grow-1">
       <div class="flex flex-wrap card-container justify-content-between my-3">
         <Logo />
@@ -83,6 +83,7 @@
         <pre
           v-show="isExecuted"
           class="min-w-full max-h-18rem highlight-container"
+          @click="bounceClearBtn()"
         >
           <code class="language-javascript hljs">{{ consoleValue }}</code>
         </pre>
@@ -92,7 +93,7 @@
           label="実行"
           @click.prevent="consoleHandler"
           icon="pi pi-caret-right"
-          class="cursor-pointer mr-2 p-button-success px-3"
+          class="cursor-pointer mr-2 p-button-info px-3"
           :class="{ 'jello-horizontal': consoleValue }"
           :disabled="!consoleValue || isExecuted"
         />
@@ -100,16 +101,19 @@
           label="クリア"
           @click.prevent="resetCommand"
           icon="pi pi-eraser"
-          class="cursor-pointer p-button-success px-3"
-          :class="{ 'jello-horizontal': isExecuted }"
+          class="cursor-pointer p-button-warning px-3"
+          :class="[
+            {
+              'jello-horizontal': isExecuted,
+            },
+            { 'jello-diagonal-1': isClickedInput },
+          ]"
           :disabled="!consoleValue"
         />
       </div>
       <div class="flex z-1">
-        <pre
-          class="min-w-full max-h-18rem highlight-container"
-        >
-          <code class="language-javascript hljs">{{ consoleRes }}</code>
+        <pre class="min-w-full max-h-18rem highlight-container">
+          <code class="language-javascript hljs" :class="{ 'text-focus-in': isExecuted }">{{ consoleRes }}</code>
         </pre>
       </div>
     </div>
@@ -225,10 +229,17 @@ const emitPaste = (command) => {
 const resetCommand = () => {
   consoleValue.value = null;
   isExecuted.value = false;
+  isClickedInput.value = false;
   consoleRes.value = "Result";
 };
 
 // End コンソール関係
+
+// Animation
+const isClickedInput = ref(false);
+const bounceClearBtn = () => {
+  isClickedInput.value = true;
+};
 </script>
 
 <style>
@@ -236,79 +247,7 @@ const resetCommand = () => {
   max-width: 960px;
 }
 
-/* When Botton is ready*/
-.jello-horizontal {
-  -webkit-animation: jello-horizontal 0.8s both;
-  animation: jello-horizontal 0.8s both;
-}
-
-/**
- * ----------------------------------------
- * animation jello-horizontal
- * ----------------------------------------
- */
-@-webkit-keyframes jello-horizontal {
-  0% {
-    -webkit-transform: scale3d(1, 1, 1);
-    transform: scale3d(1, 1, 1);
-  }
-  30% {
-    -webkit-transform: scale3d(1.25, 0.75, 1);
-    transform: scale3d(1.25, 0.75, 1);
-  }
-  40% {
-    -webkit-transform: scale3d(0.75, 1.25, 1);
-    transform: scale3d(0.75, 1.25, 1);
-  }
-  50% {
-    -webkit-transform: scale3d(1.15, 0.85, 1);
-    transform: scale3d(1.15, 0.85, 1);
-  }
-  65% {
-    -webkit-transform: scale3d(0.95, 1.05, 1);
-    transform: scale3d(0.95, 1.05, 1);
-  }
-  75% {
-    -webkit-transform: scale3d(1.05, 0.95, 1);
-    transform: scale3d(1.05, 0.95, 1);
-  }
-  100% {
-    -webkit-transform: scale3d(1, 1, 1);
-    transform: scale3d(1, 1, 1);
-  }
-}
-@keyframes jello-horizontal {
-  0% {
-    -webkit-transform: scale3d(1, 1, 1);
-    transform: scale3d(1, 1, 1);
-  }
-  30% {
-    -webkit-transform: scale3d(1.25, 0.75, 1);
-    transform: scale3d(1.25, 0.75, 1);
-  }
-  40% {
-    -webkit-transform: scale3d(0.75, 1.25, 1);
-    transform: scale3d(0.75, 1.25, 1);
-  }
-  50% {
-    -webkit-transform: scale3d(1.15, 0.85, 1);
-    transform: scale3d(1.15, 0.85, 1);
-  }
-  65% {
-    -webkit-transform: scale3d(0.95, 1.05, 1);
-    transform: scale3d(0.95, 1.05, 1);
-  }
-  75% {
-    -webkit-transform: scale3d(1.05, 0.95, 1);
-    transform: scale3d(1.05, 0.95, 1);
-  }
-  100% {
-    -webkit-transform: scale3d(1, 1, 1);
-    transform: scale3d(1, 1, 1);
-  }
-}
-
-#text-area{
+#text-area {
   font-family: "M PLUS Rounded 1c", sans-serif;
   min-height: 200px;
 }
