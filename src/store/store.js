@@ -21,19 +21,6 @@ export const useStore = defineStore("member", () => {
 
   const articleData = [];
 
-  // const getArticleData = () => {
-  //   getArticle()
-  //     .then((response) => {
-  //       articleData = response.data;
-  //       console.log(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log("data:" + error);
-  //     });
-  //   loading.value = true;
-  // };
-  // getArticleData();
-
   let historyData = [];
 
   // Command on console

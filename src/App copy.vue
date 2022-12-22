@@ -7,6 +7,7 @@
       </div>
 
       <Message class="my-4" />
+      {{ count }}
       <div
         class="flex flex-wrap card-container ustify-content-start gap-2 mb-2 mt-2"
       >
@@ -73,19 +74,14 @@
       </Dialog>
 
       <div class="flex">
-        <Textarea
-          id="text-area"
-          v-model="consoleValue"
-          v-show="!isExecuted"
-          :autoResize="true"
-          class="min-w-full max-h-18rem"
-        />
-        <pre
-          v-show="isExecuted"
-          class="min-w-full max-h-18rem highlight-container"
-        >
-          <code class="language-javascript hljs">{{ consoleValue }}</code>
-        </pre>
+        <pre><code>
+          <Textarea
+            v-model="consoleValue"
+            :autoResize="true"
+            rows="8"
+            class="min-w-full max-h-18rem scalein animation-duration-1000 language-js"
+          />
+        </code></pre>
       </div>
       <div class="mt-2 mb-2 flex justify-content-start flex-wrap">
         <Button
@@ -94,23 +90,24 @@
           icon="pi pi-caret-right"
           class="cursor-pointer mr-2 p-button-success px-3"
           :class="{ 'jello-horizontal': consoleValue }"
-          :disabled="!consoleValue || isExecuted"
+          :disabled="!consoleValue"
         />
         <Button
           label="クリア"
           @click.prevent="resetCommand"
           icon="pi pi-eraser"
           class="cursor-pointer p-button-success px-3"
-          :class="{ 'jello-horizontal': isExecuted }"
           :disabled="!consoleValue"
         />
       </div>
       <div class="flex z-1">
-        <pre
-          class="min-w-full max-h-18rem highlight-container"
-        >
-          <code class="language-javascript hljs">{{ consoleRes }}</code>
-        </pre>
+        <Textarea
+          :value="consoleRes"
+          :autoResize="true"
+          disabled="true"
+          rows="5"
+          class="min-w-full max-h-18rem scalein animation-duration-1000"
+        />
       </div>
     </div>
   </div>
@@ -118,7 +115,7 @@
 
 <script setup>
 // VueAPIs
-import { reactive, ref, watch, onMounted } from "vue";
+import { reactive, ref, onMounted } from "vue";
 // Pinia
 import { useStore } from "@/store/store.js";
 // Components
@@ -128,12 +125,6 @@ import Message from "@/components/header/Message.vue";
 import KeywordFinder from "@/components/finder/KeywordFinder.vue";
 import ArticleFinder from "@/components/finder/ArticleFinder.vue";
 import HistoryFinder from "@/components/finder/HistoryFinder.vue";
-
-// import hljs from 'highlight.js';
-import hljs from "highlight.js/lib/core";
-import javascript from "highlight.js/lib/languages/javascript";
-import "highlight.js/scss/github-dark.css";
-hljs.registerLanguage("javascript", javascript);
 
 // ButtonProps
 const keywordBtn = {
@@ -156,7 +147,11 @@ const articleData = store.articleData;
 const historyData = store.historyData;
 // END Pinia
 
+// Count
+const count = ref(0);
+
 // Modal Related
+
 const isShowKeyword = ref(false);
 const isShowArticle = ref(false);
 const isShowHistory = ref(false);
@@ -192,7 +187,6 @@ const closeDialog = () => {
 // コンソール関係
 
 const consoleValue = ref(null);
-const isExecuted = ref(false);
 const consoleRes = ref("Result");
 
 const consoleHandler = () => {
@@ -202,9 +196,7 @@ const consoleHandler = () => {
     consoleRes.value = e.message;
   }
   createHistoryData(consoleValue.value);
-  isExecuted.value = true;
-  hljs.highlightAll();
-  // console.log(hljs.highlightAll())
+  count.value++;
 };
 
 const createHistoryData = (command) => {
@@ -217,14 +209,12 @@ const createHistoryData = (command) => {
 };
 
 const emitPaste = (command) => {
-  resetCommand();
   consoleValue.value = command;
   closeDialog();
 };
 
 const resetCommand = () => {
   consoleValue.value = null;
-  isExecuted.value = false;
   consoleRes.value = "Result";
 };
 
@@ -306,22 +296,5 @@ const resetCommand = () => {
     -webkit-transform: scale3d(1, 1, 1);
     transform: scale3d(1, 1, 1);
   }
-}
-
-#text-area{
-  font-family: "M PLUS Rounded 1c", sans-serif;
-  min-height: 200px;
-}
-
-.highlight-container {
-  padding: 0.5rem 0.75rem;
-  font-size: 1rem;
-  /* background-color: #20262e; */
-  background-color: #121212;
-  border: 1px solid #3f4b5b;
-  transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
-  appearance: none;
-  border-radius: 4px;
-  min-height: 200px;
 }
 </style>
