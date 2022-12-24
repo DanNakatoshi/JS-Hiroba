@@ -5,21 +5,33 @@ import axios from "axios";
 
 export const useStore = defineStore("member", () => {
   const keywordData = ref(null);
+  const articleData = ref(null);
+  
 
   const getCommandData = async () => {
     try {
       const response = await axios.get(
         `http://asameshi-api.cloud/api/command/`
       );
-      keywordData.value = response.data
-      
+      keywordData.value = response.data;
     } catch (error) {
       // console.log(error);
     }
   };
   getCommandData();
 
-  const articleData = [];
+  const getArticle = async () => {
+    try {
+      const response = await axios.get(
+        `http://asameshi-api.cloud/api/article/`
+      );
+      articleData.value = response.data;
+    } catch (error) {
+      // console.log(error);
+    }
+  };
+  getArticle();
+
 
   let historyData = [];
 
@@ -32,12 +44,18 @@ export const useStore = defineStore("member", () => {
   };
 
   const isJapanese = ref(false);
-  
+
+  // CSS
+  const btnClass = "flex-grow-1 sm:flex-grow-0 cursor-pointer ";
+  const btnWrapper = "flex justify-content-center flex-wrap gap-2 md:gap-3 my-3"
+
   return {
     keywordData,
     articleData,
     historyData,
     sendCommand,
     isJapanese,
+    btnClass,
+    btnWrapper
   };
 });

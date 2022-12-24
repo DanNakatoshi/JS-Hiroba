@@ -1,14 +1,14 @@
 pre code.hljs {
   /* overflow-x: auto; */
   line-height: 150%;
-  white-space: pre-line;
 }
-
-
 
 pre {
-  white-space: pre-line;
+  white-space: pre;
 }
+
+
+
 
 .hljs {
   color: #c9d1d9;

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="">
     <Button
       v-show="store.isJapanese"
       @click="toggleLang()"
@@ -18,19 +18,14 @@
     />
 
     <Button
-      @click="openAsameshi"
-      icon="pi pi-external-link"
-      class="ml-2 p-button-sm p-button-secondary"
-    />
-    <Button
       @click="openGitHub"
       icon="pi pi-github"
-      class="ml-2 p-button-sm p-button-secondary"
+      class="ml-2 p-button-sm p-button-secondary "
     />
     <Button
       @click="openTwitter"
       icon="pi pi-twitter"
-      class="ml-2 p-button-sm p-button-secondary"
+      class="ml-2 p-button-sm p-button-secondary "
     />
   </div>
 </template>
@@ -38,10 +33,6 @@
 <script setup>
 import { ref } from "vue";
 import { useStore } from "@/store/store.js";
-
-const openAsameshi = () => {
-  window.open("https://asameshicode.com/");
-};
 
 const openGitHub = () => {
   window.open("https://github.com/TraitOtaku/JS-Hiroba");

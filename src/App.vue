@@ -1,25 +1,23 @@
 <template>
   <div class="flex justify-content-center min-w-full">
     <div id="app-container" class="m-4 flex-grow-1">
-      <div class="flex flex-wrap card-container justify-content-between my-3">
+      <div class="flex flex-row flex-wrap justify-content-between">
         <Logo />
         <SocialLinks />
       </div>
 
-      <div
-        class="flex justify-content-center flex-wrap gap-2 mb-2 mt-2"
-      >
+      <div :class="store.btnWrapper">
         <Button
           :label="store.isJapanese ? howToBtn.labelJP : howToBtn.labelEN"
           @click="fireHowTo()"
-          class="cursor-pointer px-3"
+          :class="store.btnClass"
         />
         <Button
           :label="store.isJapanese ? keywordBtn.labelJP : keywordBtn.labelEN"
           :finderTitle="keywordBtn.label"
           :icon="keywordBtn.icon"
           @click="openDialog('Keyword')"
-          class="cursor-pointer px-3"
+          :class="store.btnClass"
         />
         <Button
           v-show="store.isJapanese"
@@ -27,7 +25,7 @@
           :finderTitle="articleBtn.label"
           :icon="articleBtn.icon"
           @click="openDialog('Article')"
-          class="cursor-pointer px-3"
+          :class="store.btnClass"
         />
         <Button
           :label="store.isJapanese ? historyBtn.labelJP : historyBtn.labelEN"
@@ -35,8 +33,10 @@
           :icon="historyBtn.icon"
           :disabled="historyData.length == 0"
           @click="openDialog('History')"
-          :class="{ 'jello-horizontal': historyData.length > 0 }"
-          class="cursor-pointer px-3"
+          :class="[
+            { 'jello-horizontal': historyData.length > 0 },
+            store.btnClass,
+          ]"
         />
       </div>
 
@@ -73,7 +73,7 @@
 
         <KeywordFinder v-if="isShowKeyword" @emitCopy="emitSearchPaste" />
 
-        <ArticleFinder v-if="isShowArticle" />
+        <ArticleFinder v-if="isShowArticle" @emitURL="emitJumpToURL"/>
         <HistoryFinder v-if="isShowHistory" @emitCopy="emitPaste" />
       </Dialog>
 
@@ -82,6 +82,7 @@
       </div>
 
       <div class="flex">
+        <!-- User Input  -->
         <Textarea
           id="text-area"
           v-model="consoleValue"
@@ -89,38 +90,44 @@
           :autoResize="true"
           class="min-w-full max-h-18rem"
         />
-        <pre
+
+        <!-- Result with HighlightJS  -->
+        <div
           v-show="isExecuted"
-          class="min-w-full max-h-18rem highlight-container "
-          @click="bounceClearBtn()"
+          class="min-w-full max-h-18rem highlight-container"
         >
-          <code class="language-javascript hljs" v-html="consoleValue"></code>
-        </pre>
+          <pre class="flex" @click="bounceClearBtn()">
+            <code class="language-javascript hljs" >{{ consoleValue }}</code>
+          </pre>
+        </div>
       </div>
-      <div class="mt-2 mb-2 flex justify-content-center flex-wrap">
+
+      <div :class="store.btnWrapper">
         <Button
           :label="store.isJapanese ? '実行' : 'Run'"
-          @click.prevent="consoleHandler"
+          @click="consoleHandler"
           icon="pi pi-caret-right"
-          class="cursor-pointer mr-2 p-button-info px-3"
-          :class="{ 'jello-horizontal': consoleValue }"
+          class="p-button-info"
+          :class="[{ 'jello-horizontal': consoleValue }, store.btnClass]"
           :disabled="!consoleValue || isExecuted"
         />
         <Button
           :label="store.isJapanese ? 'クリア' : 'Clear Input'"
           @click.prevent="resetCommand"
           icon="pi pi-eraser"
-          class="cursor-pointer p-button-warning px-3"
+          class="p-button-warning"
           :class="[
             {
               'jello-horizontal': isExecuted,
             },
             { 'jello-diagonal-1': isClickedInput },
+            store.btnClass,
           ]"
           :disabled="!consoleValue"
         />
       </div>
-      <div class="flex z-1">
+
+      <div class="flex">
         <pre class="min-w-full console-container flex">
           <code class="language-javascript hljs" :class="{ 'text-focus-in': isExecuted }" v-html="consoleRes"></code>
         </pre>
@@ -131,7 +138,7 @@
 
 <script setup>
 // VueAPIs
-import { reactive, ref, watch, onMounted } from "vue";
+import { reactive, ref, onMounted } from "vue";
 // Pinia
 import { useStore } from "@/store/store.js";
 // Components
@@ -148,8 +155,8 @@ hljs.registerLanguage("javascript", javascript);
 
 // WelcomeMsg
 const mainMsg = reactive({
-  msg: "JavaScriptを早速書いてみましょう。",
-  msgEn: "Type some JavaScript here...",
+  msg: "console.log()を使ってみよう！",
+  msgEn: "Try using the console.log()",
 });
 
 // Pinia
@@ -180,6 +187,8 @@ const historyBtn = {
 };
 
 // END Pinia
+
+// Btn Class
 
 // Modal Related
 const isShowKeyword = ref(false);
@@ -258,7 +267,7 @@ const createHistoryData = (command) => {
     command: command,
   };
   historyData.unshift(obj);
-  historyData.length >= 10 ? historyData.pop() : "";
+  historyData.length >= 11 ? historyData.pop() : "";
 };
 
 const emitPaste = (command) => {
@@ -277,13 +286,18 @@ const emitSearchPaste = (data) => {
   closeDialog();
 };
 
+const emitJumpToURL = (url) => {
+  closeDialog();
+  window.open(url);
+};
+
 const resetCommand = () => {
   consoleValue.value = null;
   isExecuted.value = false;
   isClickedInput.value = false;
   consoleRes.value = "";
   mainMsg.msg = "もっと挑戦してみよう!";
-  mainMsg.msgEn = "Let's try some more!";
+  mainMsg.msgEn = "Let's try!";
 };
 
 // End コンソール関係
@@ -322,6 +336,7 @@ const setConsoleEn = () => {
 };
 
 const fireHowTo = () => {
+  resetCommand();
   store.isJapanese ? setConsole() : setConsoleEn();
 };
 </script>

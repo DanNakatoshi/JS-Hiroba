@@ -18,7 +18,11 @@ import InputText from 'primevue/inputtext';
 import Dialog from 'primevue/dialog';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
+import Paginator from "primevue/paginator";
+ 
 import Textarea from 'primevue/textarea';
+import RadioButton from 'primevue/radiobutton';
+// 
 
 
 const pinia = createPinia()
@@ -32,6 +36,8 @@ app.component('Dialog', Dialog );
 app.component('DataTable', DataTable );
 app.component('Column', Column );
 app.component('Textarea', Textarea );
+app.component('RadioButton', RadioButton );
+app.component('Paginator', Paginator );
 
 
 app.use(pinia)

@@ -1,7 +1,6 @@
 <template>
   <DataTable
     :value="historyData"
-    :paginator="true"
     class=""
     :rows="10"
     dataKey="id"
@@ -9,10 +8,13 @@
     v-model:filters="filters"
     filterDisplay="menu"
     :loading="loading"
-    paginatorTemplate=" PrevPageLink PageLinks NextPageLink "
-    :globalFilterFields="['title', 'keyword']"
+    :paginator="false"
+    :globalFilterFields="['command']"
     responsiveLayout="scroll"
     stripedRows
+    v-model:selection="selectedRow"
+    @rowSelect="onRowSelect"
+    selectionMode="single"
   >
     <template #header>
       <div class="flex justify-content-center align-items-center">
@@ -30,19 +32,6 @@
     <template #empty>{{store.isJapanese ? 'データがありません。' : 'No Data'}}</template>
     <template #loading>{{store.isJapanese ? 'ローディング中...' : 'Loading Data...'}}</template>
 
-    <Column
-      bodyStyle="text-align: center; overflow: visible"
-      class="copy-section"
-    >
-      <template #body="slotProps">
-        <Button
-          type="button"
-          icon="pi pi-copy "
-          class="p-button-sm"
-          @click="emitCopy(slotProps.data.command)"
-        ></Button>
-      </template>
-    </Column>
 
     <Column field="command" :header="store.isJapanese ? 'コマンド' : 'Command'" style="min-width: 14rem">
     </Column>
@@ -70,7 +59,8 @@ const filters = ref({
 
 const emit = defineEmits(["emitCopy"]);
 
-const emitCopy = (command) => {
-  emit("emitCopy", command);
+const selectedRow = ref();
+const onRowSelect = (event) => {
+  emit("emitCopy", event.data.command)
 };
 </script>
