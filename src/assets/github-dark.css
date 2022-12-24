@@ -4,11 +4,8 @@ pre code.hljs {
 }
 
 pre {
-  white-space: pre;
+  white-space: pre-wrap;
 }
-
-
-
 
 .hljs {
   color: #c9d1d9;
