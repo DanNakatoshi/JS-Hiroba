@@ -48,7 +48,7 @@ export const useStore = defineStore("member", () => {
     return command;
   };
 
-  const isJapanese = ref(false);
+  const isJapanese = ref(true);
 
   return {
     keywordData,

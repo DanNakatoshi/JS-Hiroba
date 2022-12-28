@@ -122,6 +122,7 @@
             class="min-w-full max-h-18rem"
             autofocus 
           />
+          
 
           <!-- Result with HighlightJS  -->
           <div
@@ -326,6 +327,8 @@ const resetCommand = () => {
 // Update console value with URL param
 const updateConsole = (commandId) => {
   let currentCommand = store.keywordData.find((el) => el.id == commandId);
+  mainMsg.msg = currentCommand.title;
+  mainMsg.msgEn = currentCommand.title_en;
   return (consoleValue.value = currentCommand.command);
 };
 
