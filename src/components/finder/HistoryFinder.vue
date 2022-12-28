@@ -7,7 +7,6 @@
     :rowHover="true"
     v-model:filters="filters"
     filterDisplay="menu"
-    :loading="loading"
     :paginator="false"
     :globalFilterFields="['command']"
     responsiveLayout="scroll"

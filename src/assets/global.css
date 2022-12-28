@@ -338,3 +338,37 @@ table {
             transform: skew(0deg 0deg);
   }
 }
+
+
+#app-container {
+  max-width: 960px;
+}
+
+#text-area {
+  font-family: "M PLUS Rounded 1c", sans-serif;
+  min-height: 200px;
+}
+
+.highlight-container {
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  /* background-color: #20262e; */
+  background-color: #121212;
+  border: 1px solid #3f4b5b;
+  transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+  appearance: none;
+  border-radius: 4px;
+  min-height: 200px;
+}
+
+.console-container {
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  /* background-color: #20262e; */
+  background-color: #121212;
+  border: 1px solid #3f4b5b;
+  transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+  appearance: none;
+  border-radius: 4px;
+  min-height: 120px;
+}

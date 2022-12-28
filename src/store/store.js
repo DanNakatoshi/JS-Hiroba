@@ -18,7 +18,6 @@ export const useStore = defineStore("member", () => {
       // console.log(error);
     }
   };
-  getCommandData();
 
   const getArticle = async () => {
     try {
@@ -30,7 +29,13 @@ export const useStore = defineStore("member", () => {
       // console.log(error);
     }
   };
-  getArticle();
+
+  const intialDatafetch = (async () => {
+
+    getCommandData();
+    getArticle();
+  })()
+
 
 
   let historyData = [];
@@ -45,17 +50,11 @@ export const useStore = defineStore("member", () => {
 
   const isJapanese = ref(false);
 
-  // CSS
-  const btnClass = "flex-grow-1 sm:flex-grow-0 cursor-pointer ";
-  const btnWrapper = "flex justify-content-center flex-wrap gap-2 md:gap-3 my-3"
-
   return {
     keywordData,
     articleData,
     historyData,
     sendCommand,
     isJapanese,
-    btnClass,
-    btnWrapper
   };
 });

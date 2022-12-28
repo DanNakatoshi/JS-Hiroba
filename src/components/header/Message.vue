@@ -9,4 +9,4 @@ import { useStore } from "@/store/store.js";
 const store = useStore();
 
 </script>
-<style></style>
+

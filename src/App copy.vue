@@ -120,7 +120,6 @@
             v-show="!isExecuted"
             :autoResize="true"
             class="min-w-full max-h-18rem"
-            autofocus 
           />
 
           <!-- Result with HighlightJS  -->
@@ -143,7 +142,6 @@
             class="p-button-info"
             :class="[{ 'jello-horizontal': consoleValue }, appData.btnClass]"
             :disabled="!consoleValue || isExecuted"
-            
           />
           <Button
             :label="store.isJapanese ? 'クリア' : 'Clear Input'"
@@ -176,7 +174,7 @@
 import { useRouter, useRoute } from "vue-router";
 
 // VueAPIs
-import { reactive, ref, onMounted, watchEffect } from "vue";
+import { reactive, ref, onMounted, computed } from "vue";
 // Pinia
 import { useStore } from "@/store/store.js";
 // Components
@@ -302,7 +300,7 @@ const emitHisotryPaste = (command) => {
 const emitSearchPaste = (data) => {
   resetCommand();
   router.push({ name: "command", params: { id: data.id } });
-  consoleValue.value = data.command;
+  // consoleValue.value = data.command;
   currentURLid.value = route.params.id;
   mainMsg.msg = data.title;
   mainMsg.msgEn = data.title_en;
@@ -329,13 +327,11 @@ const updateConsole = (commandId) => {
   return (consoleValue.value = currentCommand.command);
 };
 
-// Update IF URL CHANGES
-watchEffect(() => {
+const computedConsole = computed(() => {
   if (store.keywordData && route.params.id) {
-    updateConsole(route.params.id);
+    return updateConsole(route.params.id);
   }
-})
-
+});
 
 // End Console
 
