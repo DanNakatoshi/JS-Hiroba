@@ -3,6 +3,9 @@
 * {
   font-family: "M PLUS Rounded 1c", sans-serif;
 }
+a {
+  text-decoration: none;
+}
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
@@ -145,10 +148,10 @@ table {
   width: 70px;
 }
 
-
 .text-focus-in {
-	-webkit-animation: text-focus-in 0.4s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
-	        animation: text-focus-in 0.4s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+  -webkit-animation: text-focus-in 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53)
+    both;
+  animation: text-focus-in 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
 }
 
 /* ----------------------------------------------
@@ -163,31 +166,30 @@ table {
  * animation text-focus-in
  * ----------------------------------------
  */
- @-webkit-keyframes text-focus-in {
+@-webkit-keyframes text-focus-in {
   0% {
     -webkit-filter: blur(12px);
-            filter: blur(12px);
+    filter: blur(12px);
     opacity: 0;
   }
   100% {
     -webkit-filter: blur(0px);
-            filter: blur(0px);
+    filter: blur(0px);
     opacity: 1;
   }
 }
 @keyframes text-focus-in {
   0% {
     -webkit-filter: blur(12px);
-            filter: blur(12px);
+    filter: blur(12px);
     opacity: 0;
   }
   100% {
     -webkit-filter: blur(0px);
-            filter: blur(0px);
+    filter: blur(0px);
     opacity: 1;
   }
 }
-
 
 /* When Botton is ready*/
 .jello-horizontal {
@@ -262,8 +264,8 @@ table {
 }
 
 .jello-diagonal-1 {
-	-webkit-animation: jello-diagonal-1 0.8s both;
-	        animation: jello-diagonal-1 0.8s both;
+  -webkit-animation: jello-diagonal-1 0.8s both;
+  animation: jello-diagonal-1 0.8s both;
 }
 
 /* ----------------------------------------------
@@ -278,67 +280,66 @@ table {
  * animation jello-diagonal-1
  * ----------------------------------------
  */
- @-webkit-keyframes jello-diagonal-1 {
+@-webkit-keyframes jello-diagonal-1 {
   0% {
     -webkit-transform: skew(0deg 0deg);
-            transform: skew(0deg 0deg);
+    transform: skew(0deg 0deg);
   }
   30% {
     -webkit-transform: skew(25deg 25deg);
-            transform: skew(25deg 25deg);
+    transform: skew(25deg 25deg);
   }
   40% {
     -webkit-transform: skew(-15deg, -15deg);
-            transform: skew(-15deg, -15deg);
+    transform: skew(-15deg, -15deg);
   }
   50% {
     -webkit-transform: skew(15deg, 15deg);
-            transform: skew(15deg, 15deg);
+    transform: skew(15deg, 15deg);
   }
   65% {
     -webkit-transform: skew(-5deg, -5deg);
-            transform: skew(-5deg, -5deg);
+    transform: skew(-5deg, -5deg);
   }
   75% {
     -webkit-transform: skew(5deg, 5deg);
-            transform: skew(5deg, 5deg);
+    transform: skew(5deg, 5deg);
   }
   100% {
     -webkit-transform: skew(0deg 0deg);
-            transform: skew(0deg 0deg);
+    transform: skew(0deg 0deg);
   }
 }
 @keyframes jello-diagonal-1 {
   0% {
     -webkit-transform: skew(0deg 0deg);
-            transform: skew(0deg 0deg);
+    transform: skew(0deg 0deg);
   }
   30% {
     -webkit-transform: skew(25deg 25deg);
-            transform: skew(25deg 25deg);
+    transform: skew(25deg 25deg);
   }
   40% {
     -webkit-transform: skew(-15deg, -15deg);
-            transform: skew(-15deg, -15deg);
+    transform: skew(-15deg, -15deg);
   }
   50% {
     -webkit-transform: skew(15deg, 15deg);
-            transform: skew(15deg, 15deg);
+    transform: skew(15deg, 15deg);
   }
   65% {
     -webkit-transform: skew(-5deg, -5deg);
-            transform: skew(-5deg, -5deg);
+    transform: skew(-5deg, -5deg);
   }
   75% {
     -webkit-transform: skew(5deg, 5deg);
-            transform: skew(5deg, 5deg);
+    transform: skew(5deg, 5deg);
   }
   100% {
     -webkit-transform: skew(0deg 0deg);
-            transform: skew(0deg 0deg);
+    transform: skew(0deg 0deg);
   }
 }
-
 
 #app-container {
   max-width: 960px;

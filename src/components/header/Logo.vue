@@ -1,10 +1,10 @@
 <template>
-  <div id="logo" class="w-7rem h-3rem shadow-pop-bl flex justify-content-center border-round-sm mb-2">
+  <a href="https://js-hiroba.com" id="logo" class="w-7rem h-3rem shadow-pop-bl flex justify-content-center border-round-sm mb-2">
     <div class="flex align-items-end mb-1">
       <span id="" class="logo--text text-4xl">JS</span>
       <span id="hiroba" class="logo--text text-xl ">hiroba</span>
     </div>
-  </div>
+  </a>
   
 </template>
 
