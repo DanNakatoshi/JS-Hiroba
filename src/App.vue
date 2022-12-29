@@ -127,7 +127,7 @@
           <!-- Result with HighlightJS  -->
           <div
             v-show="isExecuted"
-            class="min-w-full max-h-18rem highlight-container"
+            class="min-w-full highlight-container"
           >
             <pre class="flex" @click="bounceClearBtn()">
               <code class="language-javascript hljs" >{{ consoleValue }}</code>
