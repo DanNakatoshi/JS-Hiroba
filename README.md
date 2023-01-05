@@ -1,7 +1,5 @@
-# Vue 3 + Vite
+# Welcome To JS Hiroba
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+js-hiroba.com is a open source project for anyone who wants to learn JavaScript by typing, using the sample codes.
 
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+![JSHiroba](https://i0.wp.com/asameshicode.com/wp-content/uploads/2022/12/JS-Hiroba-1.gif?resize=521%2C651&ssl=1)
